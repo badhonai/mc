@@ -1,0 +1,24 @@
+services:
+  mc:
+    image: itzg/minecraft-bedrock-server
+    container_name: mc_server
+    environment:
+      EULA: 'TRUE'
+      GAMEMODE: survival
+      DIFFICULTY: easy
+      OPS: kingbadhon45
+    ports:
+      - '19132:19132/udp'
+    volumes:
+      - ./data:/data
+    restart: always
+
+  bot:
+    build: ./bot
+    container_name: mc_bot
+    volumes:
+      - ./data:/data
+      - ./backups:/backups
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file: .env
+    restart: always
